@@ -4,6 +4,10 @@
   "description": "Tiny, dependency-free, strongly-typed object helpers (keys/values/entries/reduce/map/remap/rekey) that carry a documented exact-keys assumption.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zoobzio/objectively.git"
+  },
   "packageManager": "pnpm@10.27.0",
   "main": "./.dist/index.mjs",
   "types": "./.dist/index.d.ts",
