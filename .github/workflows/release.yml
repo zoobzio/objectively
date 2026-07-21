@@ -44,8 +44,12 @@ jobs:
 
       # Apply every pending changeset: bump versions, rewrite changelogs, and
       # delete the consumed changeset files.
+      # GITHUB_TOKEN lets @changesets/changelog-github resolve each changeset to
+      # the commit/PR that introduced it. The default Actions token suffices.
       - name: Version
         run: pnpm ci:version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Commit the bump to the release branch. Skips cleanly when nothing was
       # pending — in that case Publish still ships any already-versioned commit
