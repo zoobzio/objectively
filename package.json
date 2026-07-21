@@ -1,6 +1,6 @@
 {
   "name": "objectively",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Tiny, dependency-free, strongly-typed object helpers (keys/values/entries/reduce/map/remap/rekey) that carry a documented exact-keys assumption.",
   "type": "module",
   "license": "MIT",

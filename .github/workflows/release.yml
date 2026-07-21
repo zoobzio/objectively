@@ -23,7 +23,11 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
+      # Full history so @changesets/changelog-github can resolve each changeset
+      # to the commit/PR that introduced it.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
