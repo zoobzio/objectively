@@ -19,7 +19,7 @@ describe("equals", () => {
     expect(equals({ a: 1 }, { a: 1, b: 2 })).toBe(false);
   });
 
-  it("treats null and undefined as distinct", () => {
+  it("returns false for null and undefined", () => {
     expect(equals(null, undefined)).toBe(false);
   });
 });

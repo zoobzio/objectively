@@ -3,12 +3,12 @@ import { describe, expect, it } from "vitest";
 import { prefixed } from "../src";
 
 describe("prefixed", () => {
-  it("accepts strings starting with the prefix", () => {
+  it("accepts strings that start with the prefix", () => {
     expect(prefixed("--")("--color")).toBe(true);
     expect(prefixed("--")("--")).toBe(true);
   });
 
-  it("rejects strings not starting with the prefix", () => {
+  it("rejects strings that do not start with the prefix", () => {
     expect(prefixed("--")("color")).toBe(false);
     expect(prefixed("--")("-color")).toBe(false);
   });

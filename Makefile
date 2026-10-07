@@ -2,30 +2,30 @@
 
 .DEFAULT_GOAL := help
 
-help: ## Show available commands
+help: ## Show the available commands
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-12s\033[0m %s\n", $$1, $$2}'
 
-install: ## Install dependencies
+install: ## Install the dependencies
 	pnpm install
 
-build: ## Build to .dist via unbuild
+build: ## Build to .dist with unbuild
 	pnpm build
 
-stub: ## Stub the build for local dev (unbuild --stub)
+stub: ## Make a stub build for local development
 	pnpm stub
 
 lint: ## Run ESLint
 	pnpm lint
 
-typecheck: ## Run type checking (tsc --noEmit)
+typecheck: ## Run the type check
 	pnpm typecheck
 
 test: ## Run the test suite
 	pnpm test
 
-check: lint typecheck test ## Run lint, typecheck, and tests
+check: lint typecheck test ## Run lint, typecheck, and test
 
-clean: ## Remove build output and caches
+clean: ## Remove the build output and caches
 	rm -rf .dist .coverage node_modules/.cache
 
-ci: clean install check build ## Full CI simulation
+ci: clean install check build ## Run clean, install, check, and build

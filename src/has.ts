@@ -1,10 +1,10 @@
 import { object } from "./object";
 
 /**
- * Builds a guard for objects carrying a given key. `has("$value")` returns a
- * test that passes for any non-array object with a `$value` member, narrowing
- * it to `Record<K, unknown>`. The key's own value type is not checked — a
- * shape test over key presence only.
+ * Makes a type guard for objects that have the given key. The guard returns
+ * `true` for an object that is not an array and that has the key `K`. The
+ * guard narrows the value to `Record<K, unknown>`. The guard does not check
+ * the type of the key's value.
  */
 export const has =
   <K extends string>(key: K) =>

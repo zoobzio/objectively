@@ -3,12 +3,12 @@ import { describe, expect, it } from "vitest";
 import { wrapped } from "../src";
 
 describe("wrapped", () => {
-  it("accepts strings bounded by both delimiters", () => {
+  it("accepts strings that start with open and end with close", () => {
     expect(wrapped("{", "}")("{color.bg}")).toBe(true);
     expect(wrapped("{", "}")("{}")).toBe(true);
   });
 
-  it("rejects strings missing a delimiter", () => {
+  it("rejects strings that do not have both delimiters", () => {
     expect(wrapped("{", "}")("color.bg")).toBe(false);
     expect(wrapped("{", "}")("{color.bg")).toBe(false);
     expect(wrapped("{", "}")("color.bg}")).toBe(false);

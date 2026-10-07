@@ -1,12 +1,13 @@
 import { entries } from "./entries";
 
 /**
- * Rebuilds an object into the named result shape R: same keys, each value
- * produced by the callback. Unlike map, R is the whole mapped type given
- * explicitly — `remap<Source, Result>(obj, fn)` — so the value type may vary
- * per key. The signature alone does not tie a key to its own slot in R; write
- * the callback as a generic function over the key to have that pairing
- * checked. Carries the same exact-keys assumption as keys.
+ * Makes a new object of type `R` from the object. The keys do not change. The
+ * callback returns the value for each key. Unlike `map`, the caller gives `R`
+ * explicitly, so the value type can be different for each key. The compiler
+ * does not check that the callback's return value matches the key's slot in
+ * `R`. To get that check, write the callback as a generic function over the
+ * key. The result type assumes that the object has no keys other than the
+ * keys in its type. See `keys`.
  */
 export const remap = <
   T extends object,

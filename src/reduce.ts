@@ -1,9 +1,8 @@
 import { entries } from "./entries";
 
 /**
- * Object-shaped reduce: folds the entries into an accumulator, with each key
- * and value carrying its own type from T rather than string/unknown. The
- * accumulator type A is whatever the caller seeds and returns.
+ * Folds the object's entries into an accumulator. Each key and value has its
+ * own type from `T`. The accumulator type `A` is the type of `init`.
  */
 export const reduce = <T extends object, A>(
   obj: T,

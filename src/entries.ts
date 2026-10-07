@@ -1,7 +1,7 @@
 /**
- * Object.entries typed so each pair keeps its key with that key's own value
- * type, rather than collapsing to [string, union-of-values]. Carries the same
- * exact-keys assumption as keys.
+ * Typed `Object.entries`. Each pair has the type `[K, T[K]]` for its own key
+ * `K`. The result type assumes that the object has no keys other than the keys
+ * in its type. See `keys`.
  */
 export const entries = <T extends object>(obj: T) =>
   Object.entries(obj) as { [K in keyof T & string]: [K, T[K]] }[keyof T &

@@ -1,8 +1,8 @@
 # Changesets
 
-This folder holds [changesets](https://github.com/changesets/changesets): one
-Markdown file per change, declaring the semver bump and the release note.
+This folder holds [changesets](https://github.com/changesets/changesets). Each
+Markdown file declares one change, its semver bump, and its release note.
 
-Add one with `pnpm changeset` and commit it alongside your PR. On merge to
-`main` the release workflow accumulates pending changesets into a "Release" PR;
-merging that PR builds and publishes to npm.
+Run `pnpm changeset` to add one. Commit it with your change. The Release
+workflow applies all pending changesets and publishes to npm. Start the
+workflow by hand from the Actions tab.

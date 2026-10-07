@@ -1,11 +1,11 @@
 import { record } from "./record";
 
 /**
- * Deep structural copy over plain data: arrays are rebuilt element by element
- * and records key by key, so no array or plain record is shared with the
- * source at any depth. Everything else — primitives, functions, class
- * instances — passes through by reference. `undefined` members survive as
- * present keys; `NaN` survives as `NaN`.
+ * Makes a deep copy of plain data. The function makes a new array for each
+ * array and a new record for each record, at all depths. The function returns
+ * all other values by reference. This includes primitives, functions, and
+ * class instances. A key with the value `undefined` stays in the copy. `NaN`
+ * stays `NaN`.
  */
 export const copy = <T>(value: T): T => {
   if (Array.isArray(value)) {

@@ -3,12 +3,12 @@ import { describe, expect, it } from "vitest";
 import { has } from "../src";
 
 describe("has", () => {
-  it("accepts non-array objects carrying the key", () => {
+  it("accepts objects that have the key", () => {
     expect(has("$value")({ $value: 4 })).toBe(true);
     expect(has("$value")({ $type: "color", $value: "{color.fg}" })).toBe(true);
   });
 
-  it("rejects objects missing the key", () => {
+  it("rejects objects that do not have the key", () => {
     expect(has("$value")({ value: 4, unit: "px" })).toBe(false);
     expect(has("$value")({})).toBe(false);
   });

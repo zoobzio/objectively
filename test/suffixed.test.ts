@@ -3,12 +3,12 @@ import { describe, expect, it } from "vitest";
 import { suffixed } from "../src";
 
 describe("suffixed", () => {
-  it("accepts strings ending with the suffix", () => {
+  it("accepts strings that end with the suffix", () => {
     expect(suffixed("px")("16px")).toBe(true);
     expect(suffixed("px")("px")).toBe(true);
   });
 
-  it("rejects strings not ending with the suffix", () => {
+  it("rejects strings that do not end with the suffix", () => {
     expect(suffixed("px")("16pt")).toBe(false);
     expect(suffixed("px")("pxel")).toBe(false);
   });

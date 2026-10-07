@@ -13,7 +13,7 @@ describe("values", () => {
     expect(values(subject)).toEqual(["brand", 4, true]);
   });
 
-  it("types each value to the value union", () => {
+  it("returns values typed as the value union", () => {
     const valued: (string | number | boolean)[] = values(subject);
     expect(valued).toHaveLength(3);
   });

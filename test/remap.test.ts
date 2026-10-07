@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { remap } from "../src";
 
 describe("remap", () => {
-  it("rebuilds into the named result shape, keys unchanged", () => {
+  it("makes an object of the result type and keeps the keys", () => {
     const result = remap<{ a: number; b: number }, { a: string; b: string }>(
       { a: 1, b: 2 },
       (value) => String(value),

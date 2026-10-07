@@ -1,28 +1,28 @@
 name: Release
 
-# Manual releases only — no auto Release PR. Trigger from the Actions tab
-# ("Run workflow") or `gh workflow run Release` when you want to cut a release.
-# The job applies any pending changesets (version bump + changelog), commits
-# that to the branch it ran on, publishes to npm via OIDC, and pushes the tags.
+# Start this workflow by hand from the Actions tab or with
+# `gh workflow run Release`. The job applies the pending changesets, commits
+# the version bump to the current branch, publishes to npm with OIDC, and
+# pushes the tags.
 on:
   workflow_dispatch:
 
-# Never cancel a release mid-publish; queue instead.
+# Do not cancel a release in progress. Queue the new run.
 concurrency:
   group: release
   cancel-in-progress: false
 
 permissions:
-  contents: write # push the version-bump commit and tags
-  id-token: write # OIDC trusted publishing + provenance attestation
+  contents: write # push the version-bump commit and the tags
+  id-token: write # OIDC trusted publishing and provenance attestation
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      # Full history so @changesets/changelog-github can resolve each changeset
-      # to the commit/PR that introduced it, and so tags push cleanly.
+      # The changelog generator needs the full history to find the commit for
+      # each changeset.
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -30,8 +30,8 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
 
-      # registry-url wires npm at the registry so the OIDC token exchange has a
-      # target. Node from .nvmrc clears the >=22.14 floor OIDC requires.
+      # registry-url sets the npm registry for the OIDC token exchange. OIDC
+      # needs Node 22.14 or later. .nvmrc satisfies this.
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -42,37 +42,35 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
 
-      # Apply every pending changeset: bump versions, rewrite changelogs, and
-      # delete the consumed changeset files.
-      # GITHUB_TOKEN lets @changesets/changelog-github resolve each changeset to
-      # the commit/PR that introduced it. The default Actions token suffices.
+      # Apply the pending changesets: bump the versions, update the changelogs,
+      # and delete the applied changeset files. The changelog generator uses
+      # GITHUB_TOKEN to find the commit and PR for each changeset.
       - name: Version
         run: pnpm ci:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Commit the bump to the release branch. Skips cleanly when nothing was
-      # pending — in that case Publish still ships any already-versioned commit
-      # whose version isn't yet on npm.
+      # Commit the version bump. If there are no pending changesets, skip the
+      # commit. The Publish step then publishes any version that is not on npm.
       - name: Commit version bump
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           if git diff --cached --quiet; then
-            echo "No pending changesets — nothing to version."
+            echo "No pending changesets. Nothing to version."
           else
             git commit -m "chore: release"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
 
-      # Build and publish anything whose version isn't yet on npm. Tokenless
-      # OIDC — no NPM_TOKEN. Provenance is emitted under trusted publishing.
+      # Build and publish each version that is not on npm. OIDC replaces
+      # NPM_TOKEN. Trusted publishing emits provenance.
       - name: Publish
         run: pnpm ci:release
         env:
           NPM_CONFIG_PROVENANCE: "true"
 
-      # Push the tags changeset publish created for the released versions.
+      # Push the tags that changeset publish made.
       - name: Push tags
         run: git push --tags

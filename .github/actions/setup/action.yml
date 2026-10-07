@@ -1,22 +1,21 @@
 name: Setup
-description: Check out toolchain — pnpm, Node, and a frozen install.
+description: Install pnpm, Node, and the dependencies.
 
 inputs:
   node-version:
     description: >-
-      Node version to install. Leave empty to read .nvmrc (the pinned dev
-      version); the test matrix overrides it per entry.
+      The Node version to install. If empty, read the version from .nvmrc.
     required: false
     default: ""
 
 runs:
   using: composite
   steps:
-    # Reads the pnpm version from package.json "packageManager".
+    # Reads the pnpm version from "packageManager" in package.json.
     - name: Set up pnpm
       uses: pnpm/action-setup@v4
 
-    # When node-version is empty, setup-node falls back to node-version-file.
+    # If node-version is empty, setup-node reads node-version-file.
     - name: Set up Node
       uses: actions/setup-node@v4
       with:

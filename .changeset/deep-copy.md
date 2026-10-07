@@ -2,4 +2,4 @@
 "objectively": minor
 ---
 
-Add `copy`: a deep structural copy over plain data. Arrays and records are rebuilt at every depth, everything else passes through by reference, and the result is typed as its source. A proxy over a plain record is detached into a plain object in a single walk, each member read once.
+Add `copy`. The function makes a deep copy of plain data. It makes a new array for each array and a new record for each record, at all depths. It returns all other values by reference. The result has the same type as the source. For a proxy of a plain record, the function makes a plain object and reads each member one time.

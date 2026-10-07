@@ -11,7 +11,7 @@ describe("copy", () => {
     expect(copy(undefined)).toBe(undefined);
   });
 
-  it("rebuilds nested records so mutation does not reach the source", () => {
+  it("makes a new record at each depth", () => {
     const source = { a: { b: { c: 1 } } };
     const result = copy(source);
 
@@ -24,7 +24,7 @@ describe("copy", () => {
     expect(source.a.b.c).toBe(1);
   });
 
-  it("rebuilds arrays and nested arrays", () => {
+  it("makes a new array at each depth", () => {
     const source = { list: [1, [2, 3], { k: 4 }] };
     const result = copy(source);
 
@@ -34,7 +34,7 @@ describe("copy", () => {
     expect(result.list[2]).not.toBe(source.list[2]);
   });
 
-  it("keeps undefined members present and distinct from null", () => {
+  it("keeps keys that have the value undefined", () => {
     const source = { a: null, b: undefined };
     const result = copy(source);
 
@@ -43,14 +43,14 @@ describe("copy", () => {
     expect(result.b).toBeUndefined();
   });
 
-  it("carries NaN through", () => {
+  it("keeps NaN", () => {
     const result = copy({ a: NaN, list: [NaN, 1] });
 
     expect(result.a).toBeNaN();
     expect(result.list).toEqual([NaN, 1]);
   });
 
-  it("passes functions and class instances through by reference", () => {
+  it("returns functions and class instances by reference", () => {
     const fn = () => 1;
     class Box {
       constructor(public value: number) {}
@@ -62,7 +62,7 @@ describe("copy", () => {
     expect(result.box).toBe(box);
   });
 
-  it("detaches a proxy into a plain object, reading each member once", () => {
+  it("makes a plain object from a proxy and reads each member one time", () => {
     const target = { a: 1, nested: { b: 2 } };
     const reads: string[] = [];
     const proxy = new Proxy(target, {

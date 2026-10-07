@@ -13,7 +13,7 @@ describe("keys", () => {
     expect(keys(subject)).toEqual(["color", "size", "active"]);
   });
 
-  it("types each key to the key union", () => {
+  it("returns keys typed as the key union", () => {
     const named: ("color" | "size" | "active")[] = keys(subject);
     expect(named).toHaveLength(3);
   });

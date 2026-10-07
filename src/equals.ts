@@ -1,14 +1,14 @@
 import { record } from "./record";
 
 /**
- * Deep structural equality over plain data: records are compared key by key,
- * arrays element by element, and primitives by SameValueZero — `===` except
- * that `NaN` equals itself, so a structure containing `NaN` still equals its
- * own rebuild. Two values are equal when they have the same shape and every
- * leaf matches, which narrows `b` to `a`'s type.
+ * Compares two values for deep structural equality. The function compares
+ * records key by key, arrays element by element, and primitives with
+ * SameValueZero. With SameValueZero, `NaN` is equal to `NaN`. The function
+ * returns `true` when the two values have the same shape and all leaf values
+ * are equal. A `true` result narrows `b` to the type of `a`.
  *
- * Non-plain values — functions and class instances — compare by identity;
- * `null` and `undefined` are distinct.
+ * The function compares functions and class instances by identity. `null` and
+ * `undefined` are not equal.
  */
 export const equals = <T>(a: T, b: unknown): b is T => {
   if (a === b || (Number.isNaN(a) && Number.isNaN(b))) {

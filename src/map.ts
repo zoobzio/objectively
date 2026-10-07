@@ -1,12 +1,11 @@
 import { entries } from "./entries";
 
 /**
- * Maps every value through the callback, preserving the object's keys. Each
- * original key stays typed and lands required — an optional key that is absent
- * at runtime yields no entry, so presence is asserted, not proven — and every
- * value takes the callback's return type R. The callback sees the union of
- * value types, not the type of the specific key. Carries the same exact-keys
- * assumption as keys.
+ * Applies the callback to each value and keeps the keys. Each key in the
+ * result is required and has the type `R`. An optional key that is absent at
+ * runtime is absent from the result. The callback receives the union of the
+ * value types, not the type of the given key. The result type assumes that
+ * the object has no keys other than the keys in its type. See `keys`.
  */
 export const map = <T extends object, R>(
   obj: T,

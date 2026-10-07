@@ -1,8 +1,7 @@
 /**
- * Builds a guard for strings bounded by a prefix and suffix. `wrapped("{", "}")`
- * returns a test that passes for any string starting with `{` and ending with
- * `}`, narrowing it to the template type `` `{${string}}` ``. A shape test over
- * the delimiters only — what sits between them is the caller's concern.
+ * Makes a type guard for strings that start with `open` and end with `close`.
+ * The guard narrows the value to `` `${O}${string}${C}` ``. The guard checks
+ * the two delimiters only.
  */
 export const wrapped =
   <O extends string, C extends string>(open: O, close: C) =>

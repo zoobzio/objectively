@@ -1,8 +1,7 @@
 /**
- * Builds a guard for strings ending with a given suffix. `suffixed("px")`
- * returns a test that passes for any string ending in `px`, narrowing it to
- * the template type `` `${string}px` ``. A shape test over the suffix only —
- * what precedes it is the caller's concern.
+ * Makes a type guard for strings that end with the given suffix. The guard
+ * narrows the value to `` `${string}${S}` ``. The guard checks the suffix
+ * only.
  */
 export const suffixed =
   <S extends string>(suffix: S) =>

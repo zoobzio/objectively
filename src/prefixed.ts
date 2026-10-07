@@ -1,8 +1,7 @@
 /**
- * Builds a guard for strings starting with a given prefix. `prefixed("--")`
- * returns a test that passes for any string beginning with `--`, narrowing it
- * to the template type `` `--${string}` ``. A shape test over the prefix only —
- * what follows it is the caller's concern.
+ * Makes a type guard for strings that start with the given prefix. The guard
+ * narrows the value to `` `${P}${string}` ``. The guard checks the prefix
+ * only.
  */
 export const prefixed =
   <P extends string>(prefix: P) =>
