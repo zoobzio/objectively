@@ -61,6 +61,19 @@ import { rekey } from "objectively";
 rekey<Props, Bindings>(props, (key, value) => [`data-${key}`, value]);
 ```
 
+### Copy — `copy`
+
+Deep structural copy. Arrays and plain records are rebuilt at every depth;
+primitives, functions and class instances pass through by reference. A proxy
+over a plain record is detached into a plain object in one walk, each member
+read once — the way to snapshot a reactive container.
+
+```ts
+import { copy } from "objectively";
+
+const snapshot = copy(state); // typed as state, shares nothing plain with it
+```
+
 ### Guards — `record` · `object` · `equals`
 
 `record` narrows to a plain record (prototype is `Object.prototype` or `null`),

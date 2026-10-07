@@ -5,6 +5,7 @@ export * from "./prefixed";
 export * from "./suffixed";
 export * from "./wrapped";
 export * from "./equals";
+export * from "./copy";
 export * from "./keys";
 export * from "./values";
 export * from "./entries";
