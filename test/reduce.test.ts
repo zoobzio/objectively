@@ -4,11 +4,7 @@ import { reduce } from "../src";
 
 describe("reduce", () => {
   it("folds the entries into the accumulator", () => {
-    const total = reduce(
-      { a: 1, b: 2, c: 3 },
-      (acc, _key, value) => acc + value,
-      0,
-    );
+    const total = reduce({ a: 1, b: 2, c: 3 }, (acc, _key, value) => acc + value, 0);
     expect(total).toBe(6);
   });
 

@@ -1,4 +1,4 @@
-.PHONY: help install build stub lint typecheck test check clean ci
+.PHONY: help install build stub fmt lint typecheck test check clean ci
 
 .DEFAULT_GOAL := help
 
@@ -14,8 +14,12 @@ build: ## Build to .dist with unbuild
 stub: ## Make a stub build for local development
 	pnpm stub
 
-lint: ## Run ESLint
+fmt: ## Format the source with oxfmt
+	pnpm fmt
+
+lint: ## Run oxlint and check the format
 	pnpm lint
+	pnpm fmt:check
 
 typecheck: ## Run the type check
 	pnpm typecheck

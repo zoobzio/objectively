@@ -110,4 +110,6 @@ wrapped("{", "}")("{x}"); // true, narrows to `{${string}}`
 - `pnpm build`: build to `.dist` with unbuild
 - `pnpm test`: run the vitest suite
 - `pnpm typecheck`: run `tsc --noEmit`
-- `pnpm lint`: run eslint
+- `pnpm lint`: run oxlint
+- `pnpm fmt`: format the source with oxfmt
+- `pnpm fmt:check`: check the format

@@ -4,5 +4,4 @@
  * in its type. This is true for an object literal. This is not true for an
  * object that has extra keys at runtime.
  */
-export const keys = <T extends object>(obj: T) =>
-  Object.keys(obj) as (keyof T & string)[];
+export const keys = <T extends object>(obj: T) => Object.keys(obj) as (keyof T & string)[];

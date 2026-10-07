@@ -6,6 +6,4 @@
 export const wrapped =
   <O extends string, C extends string>(open: O, close: C) =>
   (value: unknown): value is `${O}${string}${C}` =>
-    typeof value === "string" &&
-    value.startsWith(open) &&
-    value.endsWith(close);
+    typeof value === "string" && value.startsWith(open) && value.endsWith(close);

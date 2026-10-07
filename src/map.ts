@@ -11,6 +11,6 @@ export const map = <T extends object, R>(
   obj: T,
   fn: (value: T[keyof T & string], key: keyof T & string) => R,
 ) =>
-  Object.fromEntries(
-    entries(obj).map(([key, value]) => [key, fn(value, key)]),
-  ) as { [K in keyof T & string]: R };
+  Object.fromEntries(entries(obj).map(([key, value]) => [key, fn(value, key)])) as {
+    [K in keyof T & string]: R;
+  };

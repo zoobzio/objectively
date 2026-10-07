@@ -9,11 +9,5 @@ import { entries } from "./entries";
  */
 export const rekey = <T extends object, R extends object>(
   obj: T,
-  fn: (
-    key: keyof T & string,
-    value: T[keyof T & string],
-  ) => readonly [string, unknown],
-): R =>
-  Object.fromEntries(
-    entries(obj).map(([key, value]) => fn(key, value)),
-  ) as R;
+  fn: (key: keyof T & string, value: T[keyof T & string]) => readonly [string, unknown],
+): R => Object.fromEntries(entries(obj).map(([key, value]) => fn(key, value))) as R;

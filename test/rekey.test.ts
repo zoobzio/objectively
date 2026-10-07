@@ -7,10 +7,7 @@ describe("rekey", () => {
     const result = rekey<
       { variant: string; tone: string },
       { "data-variant": string; "data-tone": string }
-    >({ variant: "solid", tone: "primary" }, (key, value) => [
-      `data-${key}`,
-      value,
-    ]);
+    >({ variant: "solid", tone: "primary" }, (key, value) => [`data-${key}`, value]);
     expect(result).toEqual({
       "data-variant": "solid",
       "data-tone": "primary",

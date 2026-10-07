@@ -3,5 +3,4 @@
  * types. The result type assumes that the object has no keys other than the
  * keys in its type. See `keys`.
  */
-export const values = <T extends object>(obj: T) =>
-  Object.values(obj) as T[keyof T & string][];
+export const values = <T extends object>(obj: T) => Object.values(obj) as T[keyof T & string][];

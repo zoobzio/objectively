@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  # Lint and typecheck read the source. They do not need a build.
+  # Lint, format check, and typecheck read the source. They do not need a build.
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -23,6 +23,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: pnpm lint
+      - run: pnpm fmt:check
 
   typecheck:
     name: Typecheck

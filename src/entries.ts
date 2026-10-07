@@ -4,5 +4,4 @@
  * in its type. See `keys`.
  */
 export const entries = <T extends object>(obj: T) =>
-  Object.entries(obj) as { [K in keyof T & string]: [K, T[K]] }[keyof T &
-    string][];
+  Object.entries(obj) as { [K in keyof T & string]: [K, T[K]] }[keyof T & string][];
