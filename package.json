@@ -1,6 +1,6 @@
 {
   "name": "objectively",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Small, dependency-free, strongly typed object helpers and type guards.",
   "license": "MIT",
   "repository": {
