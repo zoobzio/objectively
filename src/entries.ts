@@ -3,5 +3,8 @@
  * `K`. The result type assumes that the object has no keys other than the keys
  * in its type. See `keys`.
  */
-export const entries = <T extends object>(obj: T) =>
-  Object.entries(obj) as { [K in keyof T & string]: [K, T[K]] }[keyof T & string][];
+export function entries<T extends object>(
+  obj: T,
+): { [K in keyof T & string]: [K, T[K]] }[keyof T & string][] {
+  return Object.entries(obj) as { [K in keyof T & string]: [K, T[K]] }[keyof T & string][];
+}

@@ -3,6 +3,6 @@
  * instances pass. This guard is less strict than {@link record}. Use `object`
  * to permit key access. Use {@link record} to permit plain data only.
  */
-export const object = (value: unknown): value is Record<string, unknown> => {
+export function object(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
-};
+}

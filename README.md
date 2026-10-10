@@ -1,6 +1,6 @@
 # objectively
 
-Small, dependency-free, strongly typed object helpers and type guards.
+Strongly typed object helpers and type guards.
 
 The standard `Object.*` methods widen keys to `string` and values to one union.
 These helpers keep the object's own key and value types. The transform helpers
@@ -30,6 +30,44 @@ import { entries } from "objectively";
 for (const [key, value] of entries({ a: 1, b: "x" })) {
   // key: "a" | "b",  value: number | string
 }
+```
+
+### Select: `pick`
+
+Makes a new object with the given keys only. The keys of the result are in the
+order of the `keys` argument, not the order of the source. A key is in the
+result even when its value is `undefined`. The result has the type
+`Pick<T, K>`.
+
+```ts
+import { pick } from "objectively";
+
+pick({ b: 2, a: 1, c: 3 }, ["c", "a"]); // { c: 3, a: 1 }
+```
+
+### Order: `sort`
+
+Makes a new object with the keys in the order that the comparator gives. The
+comparator receives two keys, like the callback of `Array.prototype.sort`. The
+function does not change the source. The result has the same type as the
+source.
+
+```ts
+import { sort } from "objectively";
+
+const collator = new Intl.Collator("en");
+sort({ b: 2, a: 1 }, collator.compare); // { a: 1, b: 2 }
+```
+
+### Build: `collect`
+
+Makes a record from an array. The callback returns a `[key, value]` pair for
+each item. When two pairs have the same key, the later pair wins.
+
+```ts
+import { collect } from "objectively";
+
+collect(users, (user) => [user.id, user.name]); // Record<string, string>
 ```
 
 ### Fold: `reduce`
@@ -91,18 +129,26 @@ object(new Date()); // true  object([]); // false
 equals({ a: [1, NaN] }, { a: [1, NaN] }); // true
 ```
 
-### Guard factories: `has`, `prefixed`, `suffixed`, `wrapped`
+### Shape guards: `has`, `own`, `prefixed`, `suffixed`, `wrapped`
 
-Each factory returns a type guard. `has(key)` narrows to an object that has the
-key. `prefixed(prefix)`, `suffixed(suffix)`, and `wrapped(open, close)` narrow
-to a string template type. Each guard checks the shape only.
+`has(key, value)` narrows to an object that has the key. `own(key, value)` is
+the same, but the key must be an own property, not a key from the prototype.
+`prefixed(prefix, value)`, `suffixed(suffix, value)`, and
+`wrapped(open, close, value)` narrow to a string template type. Each guard
+checks the shape only.
+
+Call a guard without the value to get the guard as a function. Use this form
+with `filter`, `find`, and `every`.
 
 ```ts
-import { has, prefixed, wrapped } from "objectively";
+import { has, own, prefixed, wrapped } from "objectively";
 
-has("id")({ id: 1 }); // true, narrows to Record<"id", unknown>
-prefixed("--")("--x"); // true, narrows to `--${string}`
-wrapped("{", "}")("{x}"); // true, narrows to `{${string}}`
+has("id", { id: 1 }); // true, narrows to Record<"id", unknown>
+own("toString", {}); // false, the key comes from the prototype
+prefixed("--", "--x"); // true, narrows to `--${string}`
+wrapped("{", "}", "{x}"); // true, narrows to `{${string}}`
+
+items.filter(has("id")); // Record<"id", unknown>[]
 ```
 
 ## Scripts

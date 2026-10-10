@@ -10,7 +10,7 @@ import { record } from "./record";
  * The function compares functions and class instances by identity. `null` and
  * `undefined` are not equal.
  */
-export const equals = <T>(a: T, b: unknown): b is T => {
+export function equals<T>(a: T, b: unknown): b is T {
   if (a === b || (Number.isNaN(a) && Number.isNaN(b))) {
     return true;
   }
@@ -45,4 +45,4 @@ export const equals = <T>(a: T, b: unknown): b is T => {
   }
 
   return false;
-};
+}

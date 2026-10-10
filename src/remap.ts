@@ -9,7 +9,9 @@ import { entries } from "./entries";
  * key. The result type assumes that the object has no keys other than the
  * keys in its type. See `keys`.
  */
-export const remap = <T extends object, R extends { [K in keyof T & string]: unknown }>(
+export function remap<T extends object, R extends { [K in keyof T & string]: unknown }>(
   obj: T,
   fn: (value: T[keyof T & string], key: keyof T & string) => R[keyof T & string],
-): R => Object.fromEntries(entries(obj).map(([key, value]) => [key, fn(value, key)])) as R;
+): R {
+  return Object.fromEntries(entries(obj).map(([key, value]) => [key, fn(value, key)])) as R;
+}

@@ -7,7 +7,7 @@ import { record } from "./record";
  * class instances. A key with the value `undefined` stays in the copy. `NaN`
  * stays `NaN`.
  */
-export const copy = <T>(value: T): T => {
+export function copy<T>(value: T): T {
   if (Array.isArray(value)) {
     return value.map((entry) => copy(entry)) as T;
   }
@@ -21,4 +21,4 @@ export const copy = <T>(value: T): T => {
   }
 
   return value;
-};
+}

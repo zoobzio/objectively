@@ -7,7 +7,9 @@ import { entries } from "./entries";
  * result to `R`. The result type assumes that the object has no keys other
  * than the keys in its type. See `keys`.
  */
-export const rekey = <T extends object, R extends object>(
+export function rekey<T extends object, R extends object>(
   obj: T,
   fn: (key: keyof T & string, value: T[keyof T & string]) => readonly [string, unknown],
-): R => Object.fromEntries(entries(obj).map(([key, value]) => fn(key, value))) as R;
+): R {
+  return Object.fromEntries(entries(obj).map(([key, value]) => fn(key, value))) as R;
+}

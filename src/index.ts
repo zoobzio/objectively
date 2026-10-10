@@ -1,6 +1,7 @@
 export * from "./record";
 export * from "./object";
 export * from "./has";
+export * from "./own";
 export * from "./prefixed";
 export * from "./suffixed";
 export * from "./wrapped";
@@ -9,6 +10,9 @@ export * from "./copy";
 export * from "./keys";
 export * from "./values";
 export * from "./entries";
+export * from "./pick";
+export * from "./sort";
+export * from "./collect";
 export * from "./reduce";
 export * from "./map";
 export * from "./remap";
