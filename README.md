@@ -129,26 +129,30 @@ object(new Date()); // true  object([]); // false
 equals({ a: [1, NaN] }, { a: [1, NaN] }); // true
 ```
 
-### Shape guards: `has`, `own`, `prefixed`, `suffixed`, `wrapped`
+### Shape guards: `has`, `own`, `prefixed`, `suffixed`, `wrapped`, `within`
 
 `has(key, value)` narrows to an object that has the key. `own(key, value)` is
 the same, but the key must be an own property, not a key from the prototype.
 `prefixed(prefix, value)`, `suffixed(suffix, value)`, and
-`wrapped(open, close, value)` narrow to a string template type. Each guard
-checks the shape only.
+`wrapped(open, close, value)` narrow to a string template type. `within(set,
+value)` narrows to the member type of a `ReadonlySet` or a readonly array, so
+an `as const` tuple works without a `Set`. Each guard checks the shape only.
 
 Call a guard without the value to get the guard as a function. Use this form
 with `filter`, `find`, and `every`.
 
 ```ts
-import { has, own, prefixed, wrapped } from "objectively";
+import { has, own, prefixed, within, wrapped } from "objectively";
 
 has("id", { id: 1 }); // true, narrows to Record<"id", unknown>
 own("toString", {}); // false, the key comes from the prototype
 prefixed("--", "--x"); // true, narrows to `--${string}`
 wrapped("{", "}", "{x}"); // true, narrows to `{${string}}`
+within(new Set(["block", "inline"] as const), "block"); // true, narrows to "block" | "inline"
+within(["px", "rem"] as const, "em"); // false
 
 items.filter(has("id")); // Record<"id", unknown>[]
+kinds.filter(within(allowed)); // allowed[number][]
 ```
 
 ## Scripts
