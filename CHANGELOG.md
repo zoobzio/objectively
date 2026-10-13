@@ -1,5 +1,15 @@
 # objectively
 
+## 0.3.0
+
+### Minor Changes
+
+- [`839e617`](https://github.com/zoobzio/objectively/commit/839e617d06447f4cf52d86c023ad6e0f90c3252a) Thanks [@zoobzio](https://github.com/zoobzio)! - Add `within`. `within(set, value)` returns `true` when the value is a string that is a member of the set, and narrows the value to the member type. The set can be a `ReadonlySet` or a readonly array, so an `as const` tuple works without a `Set`. `within(set)` with no value returns the guard as a function for `filter`, `find`, and `every`.
+
+### Patch Changes
+
+- [`76c2034`](https://github.com/zoobzio/objectively/commit/76c203415b6f164fd69a2225864cb95c90ebd947) Thanks [@zoobzio](https://github.com/zoobzio)! - Run build, typecheck, lint, and test through Turborepo. CI restores the Turborepo cache with actions/cache, so a task whose inputs did not change is replayed from the cache. No change to the published code.
+
 ## 0.2.0
 
 ### Minor Changes
