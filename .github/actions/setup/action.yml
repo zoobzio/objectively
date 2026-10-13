@@ -1,5 +1,5 @@
 name: Setup
-description: Install pnpm, Node, and the dependencies.
+description: Install pnpm, Node, the dependencies, and restore the Turborepo cache.
 
 inputs:
   node-version:
@@ -26,3 +26,15 @@ runs:
     - name: Install dependencies
       shell: bash
       run: pnpm install --frozen-lockfile --ignore-scripts
+
+    # Turborepo writes its local cache to .turbo. Each job and each Node
+    # version has its own key. The key ends with the commit SHA, so each run
+    # saves a new entry. restore-keys falls back to the newest entry for the
+    # same job, so a task whose inputs did not change is replayed from cache.
+    - name: Restore Turborepo cache
+      uses: actions/cache@v4
+      with:
+        path: .turbo
+        key: turbo-${{ runner.os }}-${{ github.job }}-node${{ inputs.node-version || 'default' }}-${{ github.sha }}
+        restore-keys: |
+          turbo-${{ runner.os }}-${{ github.job }}-node${{ inputs.node-version || 'default' }}-

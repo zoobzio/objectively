@@ -14,6 +14,12 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  TURBO_TELEMETRY_DISABLED: "1"
+
+# Each job runs its task through Turborepo. The setup action restores the
+# Turborepo cache for the job. A task whose inputs did not change since the
+# last cached run is replayed from the cache and does not run again.
 jobs:
   # Lint, format check, and typecheck read the source. They do not need a build.
   lint:
@@ -22,8 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: pnpm lint
-      - run: pnpm fmt:check
+      - run: pnpm turbo run lint fmt:check
 
   typecheck:
     name: Typecheck
@@ -31,10 +36,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: pnpm typecheck
+      - run: pnpm turbo run typecheck
 
   # The tests run against the source. They do not need a build. The tests run
-  # on each supported Node version.
+  # on each supported Node version. NODE_VERSION is part of the task hash, so
+  # a cached result from one Node version is not replayed for another.
   test:
     name: Test (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
@@ -47,7 +53,9 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           node-version: ${{ matrix.node }}
-      - run: pnpm test
+      - run: pnpm turbo run test
+        env:
+          NODE_VERSION: ${{ matrix.node }}
 
   # Build the package to .dist on the pinned Node version.
   build:
@@ -56,17 +64,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: pnpm build
+      - run: pnpm turbo run build
 
   # Run one coverage pass on the pinned Node version. Upload
-  # .coverage/lcov.info to Codecov.
+  # .coverage/lcov.info to Codecov. .coverage is a cached output, so a cache
+  # hit restores the report for the upload.
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: pnpm coverage
+      - run: pnpm turbo run coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:

@@ -163,3 +163,9 @@ kinds.filter(within(allowed)); // allowed[number][]
 - `pnpm lint`: run oxlint
 - `pnpm fmt`: format the source with oxfmt
 - `pnpm fmt:check`: check the format
+- `pnpm check`: run lint, format check, typecheck, test, and build through
+  Turborepo
+
+The tasks in `turbo.json` wrap these scripts. `pnpm turbo run <task>` runs a
+task and caches the result in `.turbo`. A task whose inputs did not change is
+replayed from the cache. The `make` targets and CI use this form.
